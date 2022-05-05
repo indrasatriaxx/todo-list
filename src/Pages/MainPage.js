@@ -5,13 +5,19 @@ export const MainPage = () => {
   const [TaskInput, setTaskInput] = useState("");
   const [Task, setTask] = useState([]);
 
+
+  //ambil data dari local storage
   useEffect(() => {
+    //cek ada data atau tidak
     if (localStorage.getItem("localTasks")) {
+      //ambil data dari lcoal storage dan rubah data ke JSON
       const TaskStored = JSON.parse(localStorage.getItem("localTasks"));
+      //data dari local storage dimasukan ke state Task
       setTask(TaskStored);
     }
   }, []);
 
+  
   const addTask = (e) => {
     if (TaskInput) {
       const newTask = { id: new Date().getTime().toString(), title: TaskInput };
@@ -21,7 +27,7 @@ export const MainPage = () => {
     }
   };
 
-  const showcard = (data) => {
+  const showTask = (data) => {
     let dataTask = data;
 
     return dataTask.map((value, index) => {
@@ -47,7 +53,7 @@ export const MainPage = () => {
         Tambah
       </button>
 
-      {showcard(Task)}
+      {showTask(Task)}
     </div>
   );
 };
