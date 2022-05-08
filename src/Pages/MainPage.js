@@ -10,8 +10,10 @@ export const MainPage = () => {
   useEffect(() => {
     //cek ada data atau tidak
     if (localStorage.getItem("localTasks")) {
+
       //ambil data dari lcoal storage dan rubah data ke JSON
       const TaskStored = JSON.parse(localStorage.getItem("localTasks"));
+
       //data dari local storage dimasukan ke state Task
       setTask(TaskStored);
     }
@@ -27,6 +29,20 @@ export const MainPage = () => {
     }
   };
 
+
+  // handle delete
+  const handleDelete = (task)=>{
+    const deleted = Task.filter((t)=>t.id !== task.id);
+    setTask(deleted);
+    localStorage.setItem("localTasks", JSON.stringify(deleted))
+}
+
+// handle clear
+const handleClear=()=>{
+  setTask([]);
+  localStorage.removeItem("localTasks");
+}
+
   const showTask = (data) => {
     let dataTask = data;
 
@@ -37,6 +53,7 @@ export const MainPage = () => {
 
   return (
     <div>
+      <h1> To Do App</h1>
       <input
         type="text"
         value={TaskInput}
@@ -54,6 +71,24 @@ export const MainPage = () => {
       </button>
 
       {showTask(Task)}
+
+
+      {/* Tombol delete */}
+
+      <div className="tbl-delete">
+                <button
+                onClick ={()=> handleDelete(Task)}
+                >delete</button>
+            </div>
+
+      {/* tombol clear */}
+
+            <div className="tbl-clear">
+              <button onClick={()=>handleClear()}>
+                  Clear
+              </button>
+          </div>
     </div>
+    
   );
 };
